@@ -1,0 +1,29 @@
+- name: Install pre-requisites packages
+  apt:
+    pkg: '{{ item }}'
+    state: present
+  with_items:
+    - python-apt
+  tags: packages
+
+- name: Add Hipchat Apt signing key
+  apt_key:
+    url: 'https://www.hipchat.com/keys/hipchat-linux.key'
+  sudo: True
+  tags: packages
+
+- name: Add Hipchat APT repositories
+  apt_repository:
+    repo: 'deb http://downloads.hipchat.com/linux/apt stable main'
+    state: present
+  sudo: True
+  tags: packages
+
+- name: Install Hipchat packages
+  apt:
+    pkg: '{{ item }}'
+    state: present
+  with_items:
+    - hipchat
+  sudo: True
+  tags: packages

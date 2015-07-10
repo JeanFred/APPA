@@ -1,0 +1,17 @@
+- name: "Make sure these ppa repositories are present"
+  apt_repository:
+    repo: '{{ item }}'
+    state: present
+    update_cache: no
+  with_items:
+    - "ppa:pmjdebruijn/darktable-release"
+
+- name: Install pre-requisites packages
+  apt: pkg={{ item }} state=present
+  with_items:
+    - fonts-linuxlibertine
+    - ttf-linux-libertine
+    - inkscape
+    - gimp
+  sudo: True
+  tags: packages

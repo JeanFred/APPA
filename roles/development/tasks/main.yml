@@ -1,0 +1,69 @@
+---
+# Install stuff
+
+- name: Install pre-requisites packages
+  apt:
+    pkg: '{{ item }}'
+    state: present
+  with_items:
+    - python-apt
+  tags: packages
+
+- name: Add APT repositories
+  apt_repository:
+    repo: '{{ item }}'
+  with_items:
+    - 'ppa:webupd8team/sublime-text-3'
+  sudo: True
+  tags: packages
+
+- name: Install system packages
+  apt:
+    pkg: '{{ item }}'
+    update_cache: yes
+  with_items:
+   - git
+   - subversion
+   - git-svn
+   - tree
+   - sublime-text-installer
+   - meld
+   - python-pip
+  sudo: True
+  tags: packages
+
+- name: Create software directory
+  file:
+    path: '~/Software'
+    state: directory
+
+- name: Install liquidprompt
+  git:
+    repo: 'https://github.com/nojhan/liquidprompt.git'
+    dest: '~/Software/liquidprompt'
+
+- name: Deploy liquidprompt config file
+  copy:
+    src: liquidpromptrc
+    dest: ~/.config/liquidpromptrc
+
+- name: Deploy Vagrant bash autocompletion
+  get_url:
+    url: 'https://raw.github.com/kura/vagrant-bash-completion/master/etc/bash_completion.d/vagrant'
+    dest: '/etc/bash_completion.d/vagrant'
+  sudo: True
+  tags: bash
+
+- name: Deploy Docker bash autocompletion
+  get_url:
+    url: 'https://raw.githubusercontent.com/docker/docker/master/contrib/completion/bash/docker'
+    dest: '/etc/bash_completion.d/docker'
+  sudo: True
+  tags: bash
+
+- name: Deploy Git bash autocompletion
+  get_url:
+    url: 'https://raw.githubusercontent.com/docker/docker/master/contrib/completion/bash/docker'
+    dest: '/etc/bash_completion.d/git'
+  sudo: True
+  tags: bash

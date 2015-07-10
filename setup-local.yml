@@ -1,0 +1,7 @@
+---
+- hosts: locals
+  roles:
+    - {role: development, tags: development}
+    - {role: multimedia, tags: multimedia}
+    - {role: office, tags: office}
+    # - vagrant
