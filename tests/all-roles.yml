@@ -1,0 +1,9 @@
+---
+- name: Dummy playbook that includes all roles for syntax checking
+  hosts: all
+  sudo: True
+  roles:
+    - development
+    - multimedia
+    - office
+    - vagrant
